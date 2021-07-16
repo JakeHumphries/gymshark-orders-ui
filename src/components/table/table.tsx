@@ -1,16 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const Table: React.FC = () => {
-  const [packSizes] = useState({
-    250: 0,
-    500: 0,
-    1000: 0,
-    2000: 0,
-    5000: 0,
-  });
-
+const Table: React.FC<Record<string, unknown>> = ({ generatedPacks }) => {
   function renderTableData(): JSX.Element[] {
-    return Object.entries(packSizes).map((packsize) => (
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    return Object.entries(generatedPacks as {}).map((packsize) => (
       <tr className="border-b border-gray-200">
         <td className="py-3 px-6 text-left whitespace-nowrap">
           <div className="flex items-center">
@@ -19,7 +12,7 @@ const Table: React.FC = () => {
         </td>
         <td className="py-3 px-6 text-left whitespace-nowrap">
           <div className="flex items-center">
-            <span className="font-medium">{packsize[1]}</span>
+            <span className="font-medium">{packsize[1] as number}</span>
           </div>
         </td>
         <td className="py-3 px-6 text-center">
