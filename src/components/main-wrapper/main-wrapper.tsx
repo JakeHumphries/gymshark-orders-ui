@@ -14,9 +14,17 @@ const MainWrapper: React.FC = () => {
   return (
     <>
       <Header />
-      <TextInput buttonName="Submit" placeholderText="Enter Order Quantity" />
+      <TextInput
+        buttonName="Submit"
+        placeholderText="Enter Order Quantity"
+        updateGeneratedPacks={updateGeneratedPacks}
+      />
       <Table generatedPacks={generatedPacks} />
-      <TextInput buttonName="Add" placeholderText="Add New Pack Size" />
+      <TextInput
+        buttonName="Add"
+        placeholderText="Add New Pack Size"
+        updateGeneratedPacks={updateGeneratedPacks}
+      />
     </>
   );
 };
