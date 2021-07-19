@@ -14,41 +14,46 @@ const Table: React.FC<TableProps> = ({
 }) => {
   const [render, causeRender] = useState(true);
 
-  function renderTableData(): JSX.Element[] {
+  function renderTableData(): (JSX.Element | null)[] {
     // eslint-disable-next-line @typescript-eslint/ban-types
-    return Object.entries(generatedPacks as {}).map((packsize) => (
-      <tr className="border-b border-gray-200">
-        <td className="py-3 px-6 text-left whitespace-nowrap">
-          <div className="flex items-center">
-            <span className="font-medium">{packsize[0]}</span>
-          </div>
-        </td>
-        <td className="py-3 px-6 text-left whitespace-nowrap">
-          <div className="flex items-center">
-            <span className="font-medium">{packsize[1] as number}</span>
-          </div>
-        </td>
-        <td className="py-3 px-6 text-center">
-          <div className="flex item-center justify-center">
-            <div className="w-4 mr-2 transform hover:text-indigo-500 hover:scale-110">
-              <button
-                type="button"
-                onClick={async () => {
-                  const result = await deletePackSize(packsize[0]);
-                  if (result) {
-                    delete generatedPacks[packsize[0]];
-                    updateGeneratedPacks(generatedPacks);
-                    causeRender(!render);
-                  }
-                }}
-              >
-                <DeleteIcon />
-              </button>
-            </div>
-          </div>
-        </td>
-      </tr>
-    ));
+    return Object.entries(generatedPacks as {}).map((packsize) => {
+      if (packsize) {
+        return (
+          <tr className="border-b border-gray-200">
+            <td className="py-3 px-6 text-left whitespace-nowrap">
+              <div className="flex items-center">
+                <span className="font-medium">{packsize[0]}</span>
+              </div>
+            </td>
+            <td className="py-3 px-6 text-left whitespace-nowrap">
+              <div className="flex items-center">
+                <span className="font-medium">{packsize[1] as number}</span>
+              </div>
+            </td>
+            <td className="py-3 px-6 text-center">
+              <div className="flex item-center justify-center">
+                <div className="w-4 mr-2 transform hover:text-indigo-500 hover:scale-110">
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      const result = await deletePackSize(packsize[0]);
+                      if (result && Object.keys(generatedPacks).length > 1) {
+                        delete generatedPacks[packsize[0]];
+                        updateGeneratedPacks(generatedPacks);
+                        causeRender(!render);
+                      }
+                    }}
+                  >
+                    <DeleteIcon />
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        );
+      }
+      return null;
+    });
   }
 
   return (
