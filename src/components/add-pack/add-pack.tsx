@@ -1,23 +1,17 @@
 import React, { useState } from 'react';
-import { getPackBreakdown } from '../../api/orders-api';
+import { addPackSize } from '../../api/orders-api';
 
-type TextInputProps = {
+type OrderSubmitProps = {
   placeholderText: string;
   buttonName: string;
-  updateGeneratedPacks: React.Dispatch<
-    React.SetStateAction<{
-      250: number;
-      500: number;
-      1000: number;
-      2000: number;
-      5000: number;
-    }>
-  >;
+  generatedPacks: Record<string, unknown>;
+  updateGeneratedPacks: React.Dispatch<React.SetStateAction<any>>;
 };
 
-const TextInput: React.FC<TextInputProps> = ({
+const AddPack: React.FC<OrderSubmitProps> = ({
   buttonName,
   placeholderText,
+  generatedPacks,
   updateGeneratedPacks,
 }) => {
   const [term, setTerm] = useState(``);
@@ -36,8 +30,10 @@ const TextInput: React.FC<TextInputProps> = ({
         <button
           type="button"
           onClick={async () => {
-            const packBreakdown: any = await getPackBreakdown(term);
-            updateGeneratedPacks(packBreakdown);
+            const result = await addPackSize(term);
+            if (result) {
+              updateGeneratedPacks({ ...generatedPacks, [term]: 0 });
+            }
           }}
           className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
         >
@@ -48,4 +44,4 @@ const TextInput: React.FC<TextInputProps> = ({
   );
 };
 
-export default TextInput;
+export default AddPack;

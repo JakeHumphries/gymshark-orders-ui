@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Header from '../header/header';
 import Table from '../table/table';
-import TextInput from '../text-input/text-input';
+import OrderSubmit from '../order-submit/order-submit';
+import AddPack from '../add-pack/add-pack';
 
 const MainWrapper: React.FC = () => {
   const [generatedPacks, updateGeneratedPacks] = useState({
@@ -14,16 +15,17 @@ const MainWrapper: React.FC = () => {
   return (
     <>
       <Header />
-      <TextInput
+      <OrderSubmit
         buttonName="Submit"
         placeholderText="Enter Order Quantity"
         updateGeneratedPacks={updateGeneratedPacks}
       />
       <Table generatedPacks={generatedPacks} />
-      <TextInput
+      <AddPack
         buttonName="Add"
         placeholderText="Add New Pack Size"
         updateGeneratedPacks={updateGeneratedPacks}
+        generatedPacks={generatedPacks}
       />
     </>
   );
