@@ -11,7 +11,9 @@ export const getPackBreakdown = async (
   } catch (err) {
     // eslint-disable-next-line no-alert
     alert(
-      `Whoops Looks like there was an error, make sure your order quantity is correct. ${err}`,
+      `Whoops Looks like there was an Error${
+        err.response.data.split(`<br>`)[0].split(`Error`)[2]
+      }`,
     );
     return {
       250: 0,
@@ -33,7 +35,9 @@ export const addPackSize = async (packSize: string): Promise<boolean> => {
   } catch (err) {
     // eslint-disable-next-line no-alert
     alert(
-      `Whoops Looks like there was an error, make sure your pack size is correct. ${err}`,
+      `Whoops Looks like there was an Error${
+        err.response.data.split(`<br>`)[0].split(`Error`)[2]
+      }`,
     );
     return false;
   }
@@ -51,7 +55,9 @@ export const deletePackSize = async (packSize: string): Promise<boolean> => {
   } catch (err) {
     // eslint-disable-next-line no-alert
     alert(
-      `Whoops Looks like there was an error, make sure your pack size is correct. ${err}`,
+      `Whoops Looks like there was an Error${
+        err.response.data.split(`<br>`)[0].split(`Error`)[2]
+      }`,
     );
   }
   return true;
