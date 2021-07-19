@@ -1,6 +1,18 @@
-import React from 'react';
+/* eslint-disable no-param-reassign */
+import React, { useState } from 'react';
+import { deletePackSize } from '../../api/orders-api';
 
-const Table: React.FC<Record<string, unknown>> = ({ generatedPacks }) => {
+type TableProps = {
+  generatedPacks: Record<string, unknown>;
+  updateGeneratedPacks: React.Dispatch<React.SetStateAction<any>>;
+};
+
+const Table: React.FC<TableProps> = ({
+  generatedPacks,
+  updateGeneratedPacks,
+}) => {
+  const [render, causeRender] = useState(true);
+
   function renderTableData(): JSX.Element[] {
     // eslint-disable-next-line @typescript-eslint/ban-types
     return Object.entries(generatedPacks as {}).map((packsize) => (
@@ -18,19 +30,31 @@ const Table: React.FC<Record<string, unknown>> = ({ generatedPacks }) => {
         <td className="py-3 px-6 text-center">
           <div className="flex item-center justify-center">
             <div className="w-4 mr-2 transform hover:text-indigo-500 hover:scale-110">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+              <button
+                type="button"
+                onClick={async () => {
+                  const result = await deletePackSize(packsize[0]);
+                  if (result) {
+                    delete generatedPacks[packsize[0]];
+                    updateGeneratedPacks(generatedPacks);
+                    causeRender(!render);
+                  }
+                }}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                />
-              </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
+                </svg>
+              </button>
             </div>
           </div>
         </td>
