@@ -35,6 +35,24 @@ export const addPackSize = async (packSize: string): Promise<boolean> => {
     alert(
       `Whoops Looks like there was an error, make sure your pack size is correct. ${err}`,
     );
+    return false;
+  }
+  return true;
+};
+
+export const deletePackSize = async (packSize: string): Promise<boolean> => {
+  try {
+    console.log(`in api`, packSize);
+    const result = await axios.post(
+      `https://gymshark-orders-api-gklowydjeq-nw.a.run.app/delete-pack-size`,
+      { packSize },
+    );
+    return result.data;
+  } catch (err) {
+    // eslint-disable-next-line no-alert
+    alert(
+      `Whoops Looks like there was an error, make sure your pack size is correct. ${err}`,
+    );
   }
   return true;
 };
