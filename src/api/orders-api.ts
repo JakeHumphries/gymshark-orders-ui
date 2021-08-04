@@ -5,16 +5,12 @@ export const getPackBreakdown = async (
 ): Promise<Record<string, unknown>> => {
   try {
     const result = await axios.get(
-      `https://gymshark-orders-api-gklowydjeq-nw.a.run.app/get-pack-breakdown/${orderQuantity}`,
+      `https://gymshark-orders-api-go-gklowydjeq-nw.a.run.app/getPackBreakdown/${orderQuantity}`,
     );
     return result.data;
   } catch (err) {
     // eslint-disable-next-line no-alert
-    alert(
-      `Whoops Looks like there was an Error${
-        err.response.data.split(`<br>`)[0].split(`Error`)[2]
-      }`,
-    );
+    alert(`Whoops Looks like there was an Error: ${err.response.data}`);
     return {
       250: 0,
       500: 0,
@@ -27,38 +23,30 @@ export const getPackBreakdown = async (
 
 export const addPackSize = async (packSize: string): Promise<boolean> => {
   try {
+    const packSizeNum = parseInt(packSize, 10);
     const result = await axios.post(
-      `https://gymshark-orders-api-gklowydjeq-nw.a.run.app/add-pack-size`,
-      { packSize },
+      `https://gymshark-orders-api-go-gklowydjeq-nw.a.run.app/addPackSize`,
+      { packSize: packSizeNum || packSize },
     );
     return result.data;
   } catch (err) {
     // eslint-disable-next-line no-alert
-    alert(
-      `Whoops Looks like there was an Error${
-        err.response.data.split(`<br>`)[0].split(`Error`)[2]
-      }`,
-    );
+    alert(`Whoops Looks like there was an Error: ${err.response.data}`);
     return false;
   }
-  return true;
 };
 
 export const deletePackSize = async (packSize: string): Promise<boolean> => {
   try {
-    console.log(`in api`, packSize);
+    const packSizeNum = parseInt(packSize, 10);
     const result = await axios.post(
-      `https://gymshark-orders-api-gklowydjeq-nw.a.run.app/delete-pack-size`,
-      { packSize },
+      `https://gymshark-orders-api-go-gklowydjeq-nw.a.run.app/removePackSize`,
+      { packSize: packSizeNum || packSize },
     );
     return result.data;
   } catch (err) {
     // eslint-disable-next-line no-alert
-    alert(
-      `Whoops Looks like there was an Error${
-        err.response.data.split(`<br>`)[0].split(`Error`)[2]
-      }`,
-    );
+    alert(`Whoops Looks like there was an Error: ${err.response.data}`);
+    return false;
   }
-  return true;
 };
